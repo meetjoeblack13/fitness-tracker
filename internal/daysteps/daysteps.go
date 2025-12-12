@@ -29,7 +29,7 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	if ds.Steps <= 0 {
 		return errors.New("steps calculation error")
 	}
-	ds.Duration, err = time.ParseDuration(parts[2])
+	ds.Duration, err = time.ParseDuration(parts[1])
 	if err != nil {
 		return errors.New("duration parsing error")
 	}
@@ -42,7 +42,16 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 func (ds DaySteps) ActionInfo() (string, error) {
 	var err error
 	if ds.Steps <= 0 {
-		return "", err
+		return "", errors.New("steps calculation error")
+	}
+	if ds.Duration <= 0 {
+		return "", errors.New("duration calculation error")
+	}
+	if ds.Weight <= 0 {
+		return "", errors.New("weight calculation error")
+	}
+	if ds.Height <= 0 {
+		return "", errors.New("height calculation error")
 	}
 	distanceKilometers := spentenergy.Distance(ds.Steps, ds.Height)
 	calories, err := spentenergy.WalkingSpentCalories(ds.Steps, ds.Weight, ds.Height, ds.Duration)

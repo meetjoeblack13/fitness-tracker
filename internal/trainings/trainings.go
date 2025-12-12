@@ -30,9 +30,8 @@ func (t *Training) Parse(datastring string) (err error) {
 	if t.Steps <= 0 {
 		return errors.New("steps calculation error")
 	}
-	if !strings.EqualFold(t.TrainingType, "Ходьба") && !strings.EqualFold(t.TrainingType, "Бег") {
-		return errors.New("неизвестный тип тренировки") // Текст этой ошибки пришлось оставить на русском, так как в тестах проверяется наличие именно этого текста
-	}
+	t.TrainingType = parts[1]
+
 	t.Duration, err = time.ParseDuration(parts[2])
 	if err != nil {
 		return errors.New("duration parsing error")
